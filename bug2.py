@@ -3,6 +3,9 @@ import numpy as np
 from matplotlib.patches import Circle
 import math
 from enum import Enum
+import warnings
+
+warnings.filterwarnings('ignore')
 
 
 class ConfigurationSpace:
