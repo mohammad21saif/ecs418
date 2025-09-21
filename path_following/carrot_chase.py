@@ -33,7 +33,6 @@ class ConfigurationSpace:
         ax.plot(self.start_pos[0], self.start_pos[1], 'go', markersize=12, label='Initial Position')
         ax.plot(self.goal_pos[0], self.goal_pos[1], 'ro', markersize=12, label='Goal Position')
 
-        # Path
         if path is not None:
             path_x = [point[0] for point in path]
             path_y = [point[1] for point in path]
@@ -58,7 +57,7 @@ class CarrotChase:
         self.path = [self.current_pos]
         self.delta = delta
         self.k = k
-        self.heading = heading # in degrees
+        self.heading = heading # in radians
         self.v = v
         self.dt = dt
 
