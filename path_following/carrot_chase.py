@@ -22,7 +22,6 @@ class ConfigurationSpace:
         ax.set_ylim(self.y_min, self.y_max)
         ax.set_aspect('equal')
 
-        # Start–goal reference line
         ax.plot(
             [self.start_pos[0], self.goal_pos[0]],
             [self.start_pos[1], self.goal_pos[1]],
@@ -31,7 +30,6 @@ class ConfigurationSpace:
             label='Start to Goal'
         )
 
-        # Initial and goal positions
         ax.plot(self.start_pos[0], self.start_pos[1], 'go', markersize=12, label='Initial Position')
         ax.plot(self.goal_pos[0], self.goal_pos[1], 'ro', markersize=12, label='Goal Position')
 
@@ -112,7 +110,7 @@ def main():
 
     delta = 2.0
     k = 1.0
-    heading = math.radians(90)  # Initial heading in radians
+    heading = math.radians(-90)  
 
     carrot_chase = CarrotChase(config_space, delta, k, heading)
     path = carrot_chase.carrot_chase()
