@@ -48,3 +48,30 @@ class ConfigurationSpace:
         plt.tight_layout()
         plt.savefig('vector_field_path.png')
         plt.show()
+
+class VectorField:
+    def __init__(self, config_space, heading, entry_heading, tau, k, kappa, alpha, v=1, dt=0.1):
+        self.config_space = config_space
+        self.heading = heading
+        self.entry_heading = entry_heading
+        self.tau = tau
+        self.k = k
+        self.kappa = kappa
+        self.alpha = alpha
+        self.v = v
+        self.dt = dt
+        self.current_pos = config_space.init_pos
+        self.path = [self.current_pos]
+
+    def vector_field(self, max_iters=1000):
+        for i in range(max_iters):
+            x, y = self.current_pos
+            gx, gy = self.config_space.goal_pos
+
+            dist_to_goal = math.hypot(gx - x, gy - y)
+            if dist_to_goal < 0.5:
+                print("Reached the goal!")
+                break
+
+            theta = math.atan2(gy - self.config_space.start_pos[1], gx - self.config_space.start_pos[0])
+            

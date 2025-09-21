@@ -89,9 +89,9 @@ class CarrotChase:
 
             heading_error = (heading_error + math.pi) % (2 * math.pi) - math.pi
 
-            omega = self.k * heading_error
+            u = self.k * heading_error
 
-            self.heading += omega * self.dt
+            self.heading += u * self.dt
             x = x + self.v * math.cos(self.heading) * self.dt
             y = y + self.v * math.sin(self.heading) * self.dt
             self.current_pos = (x, y)
@@ -104,7 +104,7 @@ class CarrotChase:
 def main():
     start_pos = (5, 5)
     goal_pos = (45, 45)
-    init_pos = (30, 10)
+    init_pos = (1,1)
     config_space = ConfigurationSpace(start_pos, goal_pos, init_pos)
 
     delta = 2.0
