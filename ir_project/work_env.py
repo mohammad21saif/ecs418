@@ -260,6 +260,9 @@ class Herding:
         dog_plots = [ax.plot([], [], 'ro')[0] for _ in range(self.num_dogs)]
         goal_plot = ax.plot(self.goal_position[0], self.goal_position[1], 'gx')[0]
 
+        circle = plt.Circle((self.goal_position[0], self.goal_position[1]), self.goal_threshold, color='g', fill=False, linestyle='--')
+        ax.add_artist(circle)
+
         def init():
             for sheep_plot in sheep_plots:
                 sheep_plot.set_data([], [])
@@ -286,7 +289,7 @@ def main():
     sheep_positions = np.random.normal(loc=grid_size/2, scale=0.6, size=(num_sheep, 1, 2))
     dog_states = np.array([[2.0 + 0.3*i, 2.0] for i in range(num_dogs)])  # x, y
     goal_position = np.array([22.0, 22.0])
-    goal_threshold = 5.0
+    goal_threshold = 2.5
     r0 = 3.0
 
     herding_env = Herding(num_sheep, num_dogs, grid_size, sheep_positions, dog_states, goal_position, goal_threshold, r0, point_offset=0.6)
