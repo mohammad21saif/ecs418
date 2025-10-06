@@ -1,141 +1,3 @@
-# import matplotlib.pyplot as plt
-# import matplotlib.animation as animation
-# import numpy as np
-
-
-# class HerdingEnv:
-#     def __init__(self, 
-#                  grid_size, 
-#                  n_dogs, 
-#                  n_sheeps, 
-#                  goal_center, 
-#                  goal_radius, 
-#                  dog_pos, 
-#                  sheep_pos, 
-#                  desired_dog_rad, 
-#                  init_phi, 
-#                  offset_dist):
-        
-#         self.grid_size = grid_size
-#         self.goal_center = goal_center
-#         self.goal_radius = goal_radius
-
-#         self.n_dogs = n_dogs
-#         self.dog_init_pos = dog_pos
-#         self.dog_path = np.empty((n_dogs, 0, 2))
-#         self.dog_path = np.concatenate((self.dog_path, dog_pos[:, np.newaxis, :]), axis=1)
-
-#         self.n_sheeps = n_sheeps
-#         self.sheep_init_pos = sheep_pos
-#         self.sheep_mean = [np.mean(sheep_pos, axis=0)]
-#         self.sheep_path = np.empty((n_sheeps, 0, 2))
-#         self.sheep_path = np.concatenate((self.sheep_path, sheep_pos[:, np.newaxis, :]), axis=1)
-#         self.max_sheep_speed = 2.0
-#         self.min_dist = 0.2
-
-#         self.init_phi = init_phi # initial heading of herd
-#         self.offset_dist = offset_dist # for putting virtual point in front of the herd
-
-#         self.dt = 0.1 # control timestep
-#         self.kp = 1.0 # control gain
-#         self.kd = 1.0 # dog tracking gain
-
-
-#     def reset(self):
-#         pass
-        
-
-#     def step(self):
-#         pass
-
-
-#     def sheep_dynamics(self) -> np.ndarray:
-#         """
-#         Computes the velocity of each sheep based on repulsion from all dogs.
-
-#         Returns:
-#             np.ndarray: An array of shape (n_sheeps, 2) where each row corresponds to the velocity vector [vx, vy] of a sheep at the current timestep.
-#         """
-#         s_dot = np.zeros((self.n_sheeps, 2))
-#         for i in range(self.n_sheeps):
-#             vels = np.zeros(2)
-#             for j in range(self.n_dogs):
-#                 diff = self.sheep_path[i, -1] - self.dog_path[j, -1]
-#                 dist = np.linalg.norm(diff)
-#                 if dist < self.min_dist:
-#                     dist = self.min_dist
-#                 repulsion = diff / (dist**3)
-#                 vels += repulsion
-#             speed = np.linalg.norm(vels)
-#             # if speed > self.max_sheep_speed:
-#             #     vels = (vels / speed) * self.max_sheep_speed
-#             s_dot[i] = vels
-#         return s_dot
-    
-
-#     def dog_dynamics(self) -> np.ndarray:
-#         pass
-
-
-#     def plot(self):
-#         plt.figure(figsize=(8, 8))
-#         ax = plt.gca()
-#         ax.set_xlim(0, self.grid_size[0])
-#         ax.set_ylim(0, self.grid_size[1])
-#         ax.set_aspect('equal', adjustable='box')
-#         ax.grid(True)
-
-#         goal_circle = plt.Circle(self.goal_center, self.goal_radius, color='green', alpha=0.3, label='Goal Area')
-#         ax.add_artist(goal_circle)
-
-#         ax.scatter(self.dog_init_pos[:, 0], self.dog_init_pos[:, 1], c='blue', marker='o', label='Dogs')
- 
-#         ax.scatter(self.sheep_init_pos[:, 0], self.sheep_init_pos[:, 1], c='red', marker='o', label='Sheep')
-
-#         # Add dog and sheep paths later when available
-
-#         ax.set_title('Herding Environment')
-#         ax.set_xlabel('X-axis')
-#         ax.set_ylabel('Y-axis')
-#         ax.legend()
-
-#         plt.tight_layout()
-#         plt.savefig('herding_env.png', dpi=150)
-#         plt.show(block=True)
-
-#     def animate(self):
-#         pass
-
-
-# def main():
-#     grid_size = (100, 100)
-#     n_dogs = 2
-#     n_sheeps = 3
-#     goal_center = (80, 80)
-#     goal_radius = 10
-#     dog_pos = np.array([[20, 20], [25, 20]])
-#     sheep_pos = np.random.rand(n_sheeps, 2) * 20 + 40
-#     init_phi = np.pi / 4
-#     offset_dist = 3
-
-#     env = HerdingEnv(grid_size, 
-#                     n_dogs, 
-#                     n_sheeps, 
-#                     goal_center, 
-#                     goal_radius, 
-#                     dog_pos, 
-#                     sheep_pos, 
-#                     init_phi, 
-#                     offset_dist)
-    
-
-#     env.plot()
-#     # env.animate()
-
-# if __name__ == "__main__":
-#     main()
-
-    
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -147,7 +9,7 @@ grid_size = 15.0
 dt = 0.05  # timestep
 
 # Sheep params
-sheep_max_speed = 1.5
+sheep_max_speed = 0.7
 sheep_noise = 0.01
 K_dog = 1.0
 eps = 1e-6
@@ -162,7 +24,7 @@ dog_max_speed = 1.5
 dog_max_angular_speed = 4.5
 offset_distance = 0.6     # c in the derivation
 formation_radius = 3.0
-collect_radius = 3.0
+collect_radius = 2.0
 behind_distance = 3.5
 
 drive_advance_speed = 0.25
@@ -170,7 +32,7 @@ drive_advance_speed = 0.25
 # switching & goal
 goal = np.array([13.0, 13.0])
 goal_threshold = 0.6
-formation_tolerance = 5.3
+formation_tolerance = 10.0
 herd_dispersion_threshold = 1.05
 
 np.random.seed(0)
